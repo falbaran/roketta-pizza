@@ -1,5 +1,6 @@
 
 import React, { useState } from "react";
+import WeeklySlotPicker from "../components/WeeklySlotPicker";
 
 const pizzas = [
   { id: 1, name: "Margherita", price: 8 },
@@ -7,15 +8,9 @@ const pizzas = [
   { id: 3, name: "4 Fromages", price: 11 },
 ];
 
-const availableSlots = [
-  "12:00", "12:15", "12:30", "12:45",
-  "13:00", "13:15", "13:30", "13:45",
-  "19:00", "19:15", "19:30", "19:45",
-];
-
 export default function Home() {
   const [cart, setCart] = useState([]);
-  const [slot, setSlot] = useState("");
+  const [selectedSlot, setSelectedSlot] = useState(null);
 
   const addToCart = (pizza) => {
     setCart([...cart, pizza]);
@@ -24,10 +19,10 @@ export default function Home() {
   const total = cart.reduce((acc, item) => acc + item.price, 0);
 
   const handlePayment = () => {
-    if (!slot) return alert("Veuillez sélectionner un créneau.");
-    alert(`Commande validée ! Total: €${total}, créneau: ${slot}`);
+    if (!selectedSlot) return alert("Veuillez sélectionner un créneau.");
+    alert(`Commande validée ! Total: €${total}, créneau: ${selectedSlot.date} à ${selectedSlot.time}`);
     setCart([]);
-    setSlot("");
+    setSelectedSlot(null);
   };
 
   return (
@@ -63,19 +58,10 @@ export default function Home() {
         <p className="mt-2 font-bold">Total : €{total}</p>
       </div>
 
-      <div className="mt-6">
-        <h2 className="text-xl font-semibold">🕒 Choisissez un créneau</h2>
-        <select
-          className="border p-2 rounded mt-2 w-full"
-          value={slot}
-          onChange={(e) => setSlot(e.target.value)}
-        >
-          <option value="">-- Sélectionner un créneau --</option>
-          {availableSlots.map((s, i) => (
-            <option key={i} value={s}>{s}</option>
-          ))}
-        </select>
-      </div>
+      <WeeklySlotPicker
+        selectedSlot={selectedSlot}
+        setSelectedSlot={setSelectedSlot}
+      />
 
       <button
         className="mt-6 w-full bg-green-600 text-white py-2 rounded"
