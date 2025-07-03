@@ -40,7 +40,7 @@ export default function WeeklySlotPicker({ selectedSlot, setSelectedSlot }) {
                     <button
                       key={slotIdx}
                       onClick={() => setSelectedSlot({ date: dateStr, time })}
-                      className={\`w-full text-sm py-1 rounded mb-1 \${selected ? "bg-green-600 text-white" : "bg-gray-200 hover:bg-gray-300"}\`}
+                      className={`w-full text-sm py-1 rounded mb-1 ${selected ? "bg-green-600 text-white" : "bg-gray-200 hover:bg-gray-300"}`}
                     >
                       {time}
                     </button>
